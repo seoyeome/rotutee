@@ -1,4 +1,4 @@
-package com.greedy.rotutee.main.controller;
+package com.greedy.rotutee.main.handler;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;

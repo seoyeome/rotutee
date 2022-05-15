@@ -1,4 +1,4 @@
-package com.greedy.rotutee.main.controller;
+package com.greedy.rotutee.main.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,18 +32,12 @@ import java.io.IOException;
 @Component
 public class WebAccessDeniedHandler implements AccessDeniedHandler {
 
-//    private static final Logger logger = LoggerFactory.getLogger(WebAccessDeniedHandler.class);
-
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException ade)
             throws IOException, ServletException {
 
-//        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-//        System.out.println("authentication = " + authentication);
-//        String referer = (String)request.getHeader("REFERER");
         response.sendRedirect("/error/denied");
     }
-
 }
 
 

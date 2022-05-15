@@ -1,4 +1,4 @@
-package com.greedy.rotutee.main.controller;
+package com.greedy.rotutee.main.handler;
 
 import org.json.simple.JSONObject;
 import org.springframework.security.access.AccessDeniedException;
@@ -32,7 +32,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authEx)
             throws IOException, ServletException {
 
-//        new WebAccessDeniedHandler().handle(request, response, new AccessDeniedException(""));
         response.sendRedirect("/error/denied2");
     }
 }

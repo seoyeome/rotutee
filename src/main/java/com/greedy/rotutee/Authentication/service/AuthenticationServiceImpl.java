@@ -59,46 +59,48 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        System.out.println("여기 오괴 1");
-
+        //로그인 유저 조회
         Member member = memberRepository.findMemberByEmail(username);
-
+        //조회 결과가 없을 시
         if(member == null) {
             throw new UsernameNotFoundException("회원정보가 존재하지 않습니다.");
         }
 
-        checkLogin(member);
-        setLogin(member);
-
+        //회원의 활동상태 조회
         MemberStatusHistory memberStatusHistory = memberStatusHistoryRepositoryQuery.findMemberStatus(entityManager, member.getNo());
-
-        System.out.println("memberStatusHistory.getStatus() = " + memberStatusHistory.getStatus());
-
+        //회원의 활동 상태가 정지일 경우
         if(memberStatusHistory.getStatus().equals("정지")) {
+            //현재일과 정지일을 비교하여 Exception 발생
             checkStatus(member, memberStatusHistory);
-        } else if(memberStatusHistory.getStatus().equals("탈퇴")) {
+        }
+        //회원 상태가 탈퇴일 경우 Exception 발생
+        else if(memberStatusHistory.getStatus().equals("탈퇴")) {
             throw new LockedException("회원정보가 존재하지 않습니다.");
         }
 
+        //로그인 이력을 확인해 최초 로그인시 룰렛 기회 + 1
+        checkLogin(member);
+        //로그인 이력 추가
+        setLogin(member);
+
+        //권한 설정
         MemberDTO loginMember = modelMapper.map(member, MemberDTO.class);
-
         List<MemberRoleDTO> memberRoleList = loginMember.getMemberRoleList();
-
         List<GrantedAuthority> authorities = new ArrayList<>();
         memberRoleList.forEach(memberRole -> authorities.add(new SimpleGrantedAuthority(memberRole.getRole().getName())));
-
-        System.out.println("authorities = " + authorities);
-
+        //유저정보에 저장
         return new CustomUser(loginMember, authorities);
     }
 
     @Transactional
     public void checkStatus(Member member, MemberStatusHistory memberStatusHistory) {
+        //현재일과 정지일을 구함
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String todayDate = simpleDateFormat.format(new Date(System.currentTimeMillis()));
         String endDate = simpleDateFormat.format(memberStatusHistory.getSuspensionHitory().getEndDate());
         String today = todayDate.replace("-", "");
         String endDay = endDate.replace("-", "");
+        //현재일과 정지일을 비교해 정지일이 지났으면 활동상태 변경
         if(Integer.parseInt(today) >= Integer.parseInt(endDay)) {
             MemberStatusHistory playMemberStatusHistory = new MemberStatusHistory();
             playMemberStatusHistory.setMember(member);
@@ -106,7 +108,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             playMemberStatusHistory.setHistoryDate(new Date(System.currentTimeMillis()));
 
             memberStatusHistoryRepository.save(playMemberStatusHistory);
-        } else {
+        }
+        //정지일이 지나지 않았다면 Exception 발생
+        else {
             throw new LockedException("정지된 회원입니다. 해지일은 " + endDate + " 입니다.\n해지일 이후로 로그인을 시도하시면 해지됩니다.");
         }
     }
@@ -129,15 +133,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String todayDate = simpleDateFormat.format(today);
         String loginDate = simpleDateFormat.format(loginHistory.get(0).getLoginDate());
 
-        System.out.println("todayDate = " + todayDate);
-        System.out.println("loginDate = " + loginDate);
-
         if(todayDate.equals(loginDate) || todayDate == loginDate) {
-            System.out.println("여기1");
         } else {
             member.setRouletteChance(member.getRouletteChance() + 1);
             System.out.println(member.getRouletteChance());
-            System.out.println("여기2");
 
             memberRepository.save(member);
         }
@@ -171,25 +170,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         List<RoleMenuUrl> tutorRoleList = roleMenuUrlRepository.findByRoleNo(4);
         List<RoleMenuUrl> memberRoleList = roleMenuUrlRepository.findByRoleNo(5);
 
-        System.out.println(" 어드민1 ");
         for(int i = 0; i < adminRoleList.size(); i++) {
 
             adminPermitList.add(adminRoleList.get(i).getMenu().getUrl());
         }
-        System.out.println(" 어드민2 ");
         for(int i = 0; i < subAdminRoleList.size(); i++) {
 
             subAdminPermitList.add(subAdminRoleList.get(i).getMenu().getUrl());
         }
-        System.out.println("튜티");
         for(int i = 0; i < tuteeRoleList.size(); i++) {
             tuteePermitList.add(tuteeRoleList.get(i).getMenu().getUrl());
         }
-        System.out.println("튜터");
         for(int i = 0; i < tutorRoleList.size(); i++) {
             tutorPermitList.add(tutorRoleList.get(i).getMenu().getUrl());
         }
-        System.out.println("회원");
         for(int i = 0; i < memberRoleList.size(); i++) {
             memberPermitList.add(memberRoleList.get(i).getMenu().getUrl());
         }
