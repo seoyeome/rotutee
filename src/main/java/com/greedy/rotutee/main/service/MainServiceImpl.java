@@ -95,24 +95,25 @@ public class MainServiceImpl implements MainService{
             List<AttachedFile> fileList = mainAttachedFileRepository.findByCategoryNo(interestCategory.getLectureCategoryNo());
             if (fileList != null) {
 
-                List<AttachedFileDTO> fileDTOList = new ArrayList<>();
-                for(AttachedFile file : fileList) {
 
-                    LectureDTO lectureDTO = modelMapper.map(file.getLecture(), LectureDTO.class);
-
-                    AttachedFileDTO fileDTO = new AttachedFileDTO();
-                    fileDTO.setAttachedFileNo(file.getAttachedFileNo());
-                    fileDTO.setOriginalAttachedFileName(file.getOriginalAttachedFileName());
-                    fileDTO.setSaveAttachedFileName(file.getSaveAttachedFileName());
-                    fileDTO.setThumbnailFileName(file.getThumbnailFileName());
-                    fileDTO.setStorageFile(file.getStorageFile());
-                    fileDTO.setThumbnailFilePath(file.getThumbnailFilePath());
-                    fileDTO.setDivision(file.getDivision());
-                    fileDTO.setFileDeletionYN(file.getFileDeletionYN());
-                    fileDTO.setLecture(lectureDTO);
-
-                    fileDTOList.add(fileDTO);
-                }
+                List<AttachedFileDTO> fileDTOList = fileList.stream().map(file -> modelMapper.map(file, AttachedFileDTO.class)).collect(Collectors.toList());
+//                for(AttachedFile file : fileList) {
+//
+//                    LectureDTO lectureDTO = modelMapper.map(file.getLecture(), LectureDTO.class);
+//
+//                    AttachedFileDTO fileDTO = new AttachedFileDTO();
+//                    fileDTO.setAttachedFileNo(file.getAttachedFileNo());
+//                    fileDTO.setOriginalAttachedFileName(file.getOriginalAttachedFileName());
+//                    fileDTO.setSaveAttachedFileName(file.getSaveAttachedFileName());
+//                    fileDTO.setThumbnailFileName(file.getThumbnailFileName());
+//                    fileDTO.setStorageFile(file.getStorageFile());
+//                    fileDTO.setThumbnailFilePath(file.getThumbnailFilePath());
+//                    fileDTO.setDivision(file.getDivision());
+//                    fileDTO.setFileDeletionYN(file.getFileDeletionYN());
+//                    fileDTO.setLecture(lectureDTO);
+//
+//                    fileDTOList.add(fileDTO);
+//                }
 
                 return fileDTOList;
             }
@@ -139,24 +140,24 @@ public class MainServiceImpl implements MainService{
         List<AttachedFile> bannerList = mainAttachedFileRepository.findByRecentLectureBanner();
 
         List<AttachedFileDTO> bannerDTOList = new ArrayList<>();
-        for(AttachedFile banner : bannerList) {
-
-            LectureDTO lectureDTO = modelMapper.map(banner.getLecture(), LectureDTO.class);
-
-            AttachedFileDTO fileDTO = new AttachedFileDTO();
-            fileDTO.setAttachedFileNo(banner.getAttachedFileNo());
-            fileDTO.setOriginalAttachedFileName(banner.getOriginalAttachedFileName());
-            fileDTO.setSaveAttachedFileName(banner.getSaveAttachedFileName());
-            fileDTO.setThumbnailFileName(banner.getThumbnailFileName());
-            fileDTO.setStorageFile(banner.getStorageFile());
-            fileDTO.setThumbnailFilePath(banner.getThumbnailFilePath());
-            fileDTO.setDivision(banner.getDivision());
-            fileDTO.setFileDeletionYN(banner.getFileDeletionYN());
-            fileDTO.setLecture(lectureDTO);
-
-            bannerDTOList.add(fileDTO);
-        }
-
+//        for(AttachedFile banner : bannerList) {
+//
+//            LectureDTO lectureDTO = modelMapper.map(banner.getLecture(), LectureDTO.class);
+//
+//            AttachedFileDTO fileDTO = new AttachedFileDTO();
+//            fileDTO.setAttachedFileNo(banner.getAttachedFileNo());
+//            fileDTO.setOriginalAttachedFileName(banner.getOriginalAttachedFileName());
+//            fileDTO.setSaveAttachedFileName(banner.getSaveAttachedFileName());
+//            fileDTO.setThumbnailFileName(banner.getThumbnailFileName());
+//            fileDTO.setStorageFile(banner.getStorageFile());
+//            fileDTO.setThumbnailFilePath(banner.getThumbnailFilePath());
+//            fileDTO.setDivision(banner.getDivision());
+//            fileDTO.setFileDeletionYN(banner.getFileDeletionYN());
+//            fileDTO.setLecture(lectureDTO);
+//
+//            bannerDTOList.add(fileDTO);
+//        }
+            bannerDTOList = bannerList.stream().map(banner -> modelMapper.map(banner, AttachedFileDTO.class)).collect(Collectors.toList());
         return bannerDTOList;
     }
 }

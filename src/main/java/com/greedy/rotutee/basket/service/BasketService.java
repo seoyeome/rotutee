@@ -32,7 +32,5 @@ public interface BasketService {
 
     List<BasketMemberCouponBoxDTO> selectCouponList(int memberNo);
 
-
-
-
+    MemberLectureDTO findLectureNoAndMemberNo(int lectureNo, int memberNo);
 }

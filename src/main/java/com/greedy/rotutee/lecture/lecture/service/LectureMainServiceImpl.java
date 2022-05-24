@@ -407,7 +407,9 @@ public class LectureMainServiceImpl implements  LectureMainService{
 
         LectureCategory category = lectureCategoryRepository.findByLectureCategoryName(categoryName);
 
-        List<Lecture> lectureList = lectureMainRepository.findByLectureCategory(category);
+        String status = "승인";
+
+        List<Lecture> lectureList = lectureMainRepository.findByLectureCategoryAndLectureApprovalStatus(category, status);
 
         List<LectureDTO> lectureDTOList = lectureList.stream().map(lecture -> modelMapper.map(lecture, LectureDTO.class)).collect(Collectors.toList());
 

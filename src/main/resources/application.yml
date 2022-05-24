@@ -6,9 +6,9 @@ server:
 spring:
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:oracle:thin:@oracle.team-greedy.com:1521:xe
-    username: C##ROTUTEE
-    password: ROTUTEE
+    url: jdbc:log4jdbc:oracle:thin:@localhost:1521:xe
+    username: C##ROTUTEE2
+    password: ROTUTEE2
     hikari:
       auto-commit: false
 

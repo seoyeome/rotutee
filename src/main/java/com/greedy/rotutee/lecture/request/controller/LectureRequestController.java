@@ -92,16 +92,13 @@ public class LectureRequestController {
      * @Return ModelAndView mv
      * */
     @PostMapping("lecture")
-    public ModelAndView registLectureOpeningApplication(ModelAndView mv, @ModelAttribute LectureDTO newLecture
-                                                                       , @RequestParam int categoryNo
-                                                                       , @RequestParam MultipartFile thumbnailImg
-                                                                       , @RequestParam MultipartFile bannerImg
+    public ModelAndView registLectureOpeningApplication(ModelAndView mv, @ModelAttribute LectureDTO newLecture, @RequestParam int categoryNo
+                                                                       , @RequestParam MultipartFile thumbnailImg, @RequestParam MultipartFile bannerImg
                                                                        , @AuthenticationPrincipal CustomUser customUser
                                                                        , RedirectAttributes rttr) throws IOException {
 
         List<MultipartFile> requestFileList = new ArrayList<>();
         requestFileList.add(thumbnailImg);
-
         if(!bannerImg.isEmpty()) {
             requestFileList.add(bannerImg);
         }

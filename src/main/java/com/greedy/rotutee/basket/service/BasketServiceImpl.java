@@ -112,6 +112,13 @@ public class BasketServiceImpl implements BasketService{
         return basketMemberCouponBoxDTO;
     }
 
+    @Override
+    public MemberLectureDTO findLectureNoAndMemberNo(int lectureNo, int memberNo) {
+
+        MemberLecture memberLecture = classBasketMemberLectureRespository.findByMemberNoAndLectureNo(memberNo, lectureNo);
+
+        return modelMapper.map(memberLecture, MemberLectureDTO.class);
+    }
 
 
     @Override
