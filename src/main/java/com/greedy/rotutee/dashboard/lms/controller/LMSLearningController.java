@@ -82,7 +82,6 @@ public class LMSLearningController {
         int timeNo = Integer.parseInt(request.getParameter("timeNo"));
         String status = request.getParameter("status");
         System.out.println("timeNo = " + timeNo);
-        System.out.println("웨에에에에에에에에에에에에에에에엥 = " + status);
 
         lmsLearningService.modifyVideoWatchingStatus(timeNo, status);
 

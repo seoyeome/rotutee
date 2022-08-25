@@ -157,3 +157,6 @@ buildNumber.properties
 .classpath
 
 # End of https://www.toptal.com/developers/gitignore/api/maven,intellij,java
+
+# 확장자 제거
+.mp4

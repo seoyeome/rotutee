@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="test4" />
+        <module name="rotutee_sourcetree" />
         <module name="finalproject" />
         <module name="rotutee" />
         <module name="sourcetree_workspace" />
@@ -18,6 +19,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="finalproject" options="-parameters" />
       <module name="rotutee" options="-parameters" />
+      <module name="rotutee_sourcetree" options="-parameters" />
       <module name="sourcetree_workspace" options="-parameters" />
       <module name="test4" options="-parameters" />
     </option>
